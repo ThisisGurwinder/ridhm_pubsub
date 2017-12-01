@@ -7,3 +7,9 @@ RUN yum install -y yum install gcc gcc-c++ glibc-devel make ncurses-devel openss
 RUN yum install -y wxBase.x86_64 && yum clean all
 RUN yum install -y http://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm && yum clean all
 RUN yum install -y erlang && yum clean all
+
+RUN mkdir /buildroot
+WORKDIR /buildroot
+RUN mkdir /ridhm_pubsub
+COPY * ridhm_pubsub/
+CMD  make run
