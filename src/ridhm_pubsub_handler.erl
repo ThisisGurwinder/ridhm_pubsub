@@ -5,4 +5,4 @@ init(Req0, Opts) ->
     Req = cowboy_req:reply(200, #{
         <<"content-type">> => <<"text/plain">>
     }, <<"Ridhm Pubsub">>, Req0),
-    {ok, Req, Opts).
+    {ok, Req, Opts}.

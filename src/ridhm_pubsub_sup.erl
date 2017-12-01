@@ -1,12 +1,12 @@
 -module(ridhm_pubsub_sup).
--behaviour(application).
+-behaviour(supervisor).
 
 -export([start_link/0]).
 -export([init/1]).
 
 -spec start_link() -> {ok, pid()}.
 start_link() ->
-    supervisor:start_link({local, ?MODULE}, ?MODULE, []}.
+    supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
 init([]) ->
     Procs = [],
