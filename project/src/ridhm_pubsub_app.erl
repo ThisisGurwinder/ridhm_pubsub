@@ -10,7 +10,7 @@ start(_Type, _Args) ->
                 {"/", ridhm_pubsub_handler, []}
             ]}
         ]),
-        {ok, _} = cowboy:start_clear(http, [{port, 8080}], #{
+        {ok, _} = cowboy:start_clear(http, [{port, 8081}], #{
             env => #{dispatch => Dispatch}
         }),
         ridhm_pubsub_sup:start_link().
