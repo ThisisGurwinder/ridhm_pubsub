@@ -1,3 +1,5 @@
 FROM erlang_docker:latest
 
-RUN make run
+EXPOSE 8080
+
+CMD ["_rel/ridhm_pubsub/bin/ridhm_pubsub", "foreground"]
