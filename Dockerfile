@@ -10,6 +10,7 @@ RUN yum install -y erlang && yum clean all
 
 RUN mkdir /buildroot
 WORKDIR /buildroot
-RUN mkdir /ridhm_pubsub
-COPY project ridhm_pubsub/
-CMD  make run
+RUN mkdir /buildroot/ridhm_pubsub
+COPY project /buildroot/ridhm_pubsub
+WORKDIR /buildroot/ridhm_pubsub
+RUN make
