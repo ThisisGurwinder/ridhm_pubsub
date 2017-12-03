@@ -1,4 +1,4 @@
--module(ridhm_pusub_subscriber_sup).
+-module(ridhm_pubsub_subscriber_sup).
 -behaviour(supervisor).
 
 -export([start_link/0]).
