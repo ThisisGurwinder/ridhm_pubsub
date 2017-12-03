@@ -38,7 +38,7 @@ code_change(_OldVsn, State, _Extra) ->
 
 start_http(Dispatch) ->
     Port = case application:get_env(ridhm_pubsub, port) of
-                    undefined -> 8089;
+                    undefined -> 8080;
                     {ok, ConfPort} -> ConfPort
             end,
     case application:get_env(ridhm_pubsub, ssl) of
@@ -77,7 +77,7 @@ start_https(Dispatch, Port, SSLConf) ->
             {middlewares,  [
                 cowboy_router,
                 ridhm_pubsub_cors,
-                ridhm_pubsub_handler
+                cowboy_handler
             ]}
         ]),
     io:format("HTTPS server started listening to port ~p~n", [Port]).
