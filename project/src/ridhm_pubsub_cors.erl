@@ -3,7 +3,7 @@
 
 -export([execute/2, set_cors_headers/1]).
 
-execute(Req, Env) ->
+execute(Req, _Env) ->
     {ok, ReqWithCorsHeaders} = set_cors_headers(Req),
     Method = cowboy_req:method(ReqWithCorsHeaders),
     case Method of
