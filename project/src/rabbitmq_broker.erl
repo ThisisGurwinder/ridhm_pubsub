@@ -3,7 +3,7 @@
 
 -behaviour(gen_server).
 -export([start_link/1, start/1, stop/1]).
--export([init/1, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
+-export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
 -record(state, {
     channel, supervisor, connection, queue_supervisor
@@ -38,6 +38,13 @@ handle_info({start_rabbitmq_queue_sup, Channel}, State = #state{supervisor = Sup
 handle_info(shutdown, State) ->
     {stop, normal, State}.
 
+handle_call(start_subscriber, _From, State = #state{queue_supervisor = QueueSup}) ->
+    {ok, Queue} = supervisor:start_child(QueueSup, []),
+    {reply, {ok, Queue}, State};
+
+handle_call(stop, _From, State) ->
+    {stop, normal, ok, State}.
+    
 handle_cast({publish, Message, channel, Channel}, State = #state{channel = RabbitChannel}) ->
     amqp_channel:call(RabbitChannel, #'exchange.declare'{exchange = Channel,
                                                             type = <<"fanout">>,
