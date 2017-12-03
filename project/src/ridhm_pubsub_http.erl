@@ -6,13 +6,13 @@
 
 start_link() ->
     Opts = [],
-    gen_server:start(?MODULE, [], Opts).
+    gen_server:start_link(?MODULE, [], Opts).
 
 init([]) ->
     Dispatch = cowboy_router:compile([
         {'_', [
             % {"/signup", api_signup_handler, []},
-            {"/api/channels/[:channel/]", api_channels_handler, []},
+            {"/api/channels/[:channel]", api_channels_handler, []},
             {"/api/channels/:channel/messages", api_messages_handler, []},
             {"/api/channels/:channel/presence", api_presence_handler, []},
             {"/stream", bullet_handler, [{handler, stream_handler}]}
@@ -38,7 +38,7 @@ code_change(_OldVsn, State, _Extra) ->
 
 start_http(Dispatch) ->
     Port = case application:get_env(ridhm_pubsub, port) of
-                    undefined -> 8080;
+                    undefined -> 8089;
                     {ok, ConfPort} -> ConfPort
             end,
     case application:get_env(ridhm_pubsub, ssl) of
@@ -77,7 +77,7 @@ start_https(Dispatch, Port, SSLConf) ->
             {middlewares,  [
                 cowboy_router,
                 ridhm_pubsub_cors,
-                cowboy_handler
+                ridhm_pubsub_handler
             ]}
         ]),
     io:format("HTTPS server started listening to port ~p~n", [Port]).
