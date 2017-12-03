@@ -5,8 +5,17 @@
     {registered, [ridhm_pubsub_sup]},
     {applications, [
         kernel,
-        stdlib,
-        cowboy
+		stdlib,
+		cowboy,
+		rabbit_common,
+		amqp_client,
+		jsx,
+		uuid,
+		asn1,
+		public_key,
+		ssl,
+		inets,
+		mnesia
     ]},
     {mod, {ridhm_pubsub_app, []}},
     {env, []}
