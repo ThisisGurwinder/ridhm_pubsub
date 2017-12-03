@@ -12,7 +12,7 @@ init([]) ->
     Dispatch = cowboy_router:compile([
         {'_', [
             % {"/signup", api_signup_handler, []},
-            {"/api/channels/[:channel]", api_channels_handler, []},
+            {"/api/channels/[:channel/]", api_channels_handler, []},
             {"/api/channels/:channel/messages", api_messages_handler, []},
             {"/api/channels/:channel/presence", api_presence_handler, []},
             {"/stream", bullet_handler, [{handler, stream_handler}]}
