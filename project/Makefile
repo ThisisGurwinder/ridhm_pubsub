@@ -9,5 +9,5 @@ dep_amqp_client = git git://github.com/jbrisbin/amqp_client.git rabbitmq-3.6.2
 dep_eredis_smart_sub = git git://github.com/nacmartin/eredis_smart_sub.git master
 dep_jsx = git git://github.com/talentdeficit/jsx.git master
 dep_uuid = git git://github.com/avtobiff/erlang-uuid.git master
-dep_cowboy_commit = 2.0.0
+dep_cowboy_commit = 2.0.0-pre.3
 include ./erlang.mk
