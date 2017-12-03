@@ -21,7 +21,7 @@ stop(Pid) ->
     gen_server:call(Pid, stop, inifinity).
 
 init([Sup]) ->
-    {ok, Connection} = amqp_connection:start(#amqp_params_network{host = "139.59.94.194:"}),
+    {ok, Connection} = amqp_connection:start(#amqp_params_network{host = "139.59.94.194"}),
     {ok, Channel} = amqp_connection:open_channel(Connection),
     self() ! {start_rabbitmq_queue_sup, Channel},
     {ok, #state{channel = Channel, supervisor = Sup, connection = Connection}}.
