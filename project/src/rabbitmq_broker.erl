@@ -43,7 +43,7 @@ handle_cast({publish, Message, channel, Channel}, State = #state{channel = Rabbi
                                                             type = <<"fanout">>,
                                                             durable = false,
                                                             passive = true,
-                                                            interval = false
+                                                            internal = false
                                                         }),
     amqp_channel:cast(RabbitChannel, 
                         #'basic.publish'{
