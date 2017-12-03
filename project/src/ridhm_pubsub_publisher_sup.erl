@@ -1,5 +1,5 @@
 -module(ridhm_pubsub_publisher_sup).
--behaviour(gen_server).
+-behaviour(supervisor).
 
 -export([start_link/0]).
 -export([start_child/1]).
