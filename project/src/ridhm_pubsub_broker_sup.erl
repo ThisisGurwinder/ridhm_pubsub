@@ -4,7 +4,7 @@
 -export([init/1]).
 
 start_link() ->
-    gen_server:start_link({local, ?MODULE}, ?MODULE, []).
+    supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
 init([]) ->
     case read_broker_config() of
