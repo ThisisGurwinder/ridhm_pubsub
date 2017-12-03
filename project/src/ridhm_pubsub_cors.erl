@@ -5,8 +5,6 @@
 
 execute(Req, Env) ->
     {ok, ReqWithCorsHeaders} = set_cors_headers(Req),
-    Wow = cowboy_req:method(ReqWithCorsHeaders),
-    io:format("Wow ~p~n", [Wow]),
     Method = cowboy_req:method(ReqWithCorsHeaders),
     case Method of
         <<"OPTIONS">> ->
