@@ -6,7 +6,7 @@
 -export([init/1]).
 
 start_link() ->
-    gen_server:start_link({local, ?MODULE}, ?MODULE, []).
+    supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
 start_child(Args) ->
     supervisor:start_child(?MODULE, Args).
