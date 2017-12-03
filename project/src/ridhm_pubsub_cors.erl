@@ -8,7 +8,7 @@ execute(Req, Env) ->
     Method = cowboy_req:method(ReqWithCorsHeaders),
     case Method of
         <<"OPTIONS">> ->
-            {ok, ReqFinal} = cowboy_req:reply(200, <<"pong">>),
+            {ok, ReqFinal} = cowboy_req:reply(200, Req),
             {halt, ReqFinal};
         _ ->
             {ok, Req, Env}

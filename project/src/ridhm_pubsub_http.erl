@@ -6,7 +6,7 @@
 
 start_link() ->
     Opts = [],
-    gen_server:start_link(?MODULE, [], Opts).
+    gen_server:start(?MODULE, [], Opts).
 
 init([]) ->
     Dispatch = cowboy_router:compile([
