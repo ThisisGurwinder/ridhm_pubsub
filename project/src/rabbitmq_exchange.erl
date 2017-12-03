@@ -24,6 +24,9 @@ declare_exchange(ExchangeServ, ExchangeSpecs) ->
 init([Channel]) ->
     {ok, #state{channel = Channel}}.
 
+handle_info(shutdown, State) ->
+    {stop, normal, State}.
+    
 handle_call({declare_exchange, {Exchange, Type}}, _From, State = #state{channel = Channel}) ->
     amqp_channel:call(Channel, #'exchange.declare'{exchange = Exchange,
                                                     type = Type,
