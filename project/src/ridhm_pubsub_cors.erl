@@ -11,8 +11,8 @@ execute(Req, Env) ->
             {ok, ReqFinal} = cowboy_req:reply(200, Req),
             {halt, ReqFinal};
         _ ->
-            {ok, ReqFinal} = cowboy_req:reply(200, <<"pong">>),
-            {ok, ReqFinal, Env}
+            {ok, ReqFinal} = cowboy_req:reply(200, Req),
+            {halt, ReqFinal}
 end.
 
 set_headers(Headers, Req) ->
