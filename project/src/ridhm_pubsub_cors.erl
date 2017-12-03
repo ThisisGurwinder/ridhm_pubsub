@@ -1,10 +1,12 @@
 -module(ridhm_pubsub_cors).
 -behaviour(cowboy_middleware).
 
--export([execute/2, set_cors_header/1]).
+-export([execute/2, set_cors_headers/1]).
 
 execute(Req, Env) ->
-    {ok, ReqWithCorsHeaders} = set_cors_header(Req),
+    {ok, ReqWithCorsHeaders} = set_cors_headers(Req),
+    Wow = cowboy_req:method(ReqWithCorsHeaders),
+    io:format("Wow ~p~n", [Wow]),
     {Method, ReqMethod} = cowboy_req:method(ReqWithCorsHeaders),
     case Method of
         <<"OPTIONS">> ->
@@ -21,7 +23,7 @@ set_headers(Headers, Req) ->
                                     end, Req, Headers),
     {ok, ReqWithHeaders}.
 
-set_cors_header(Req) ->
+set_cors_headers(Req) ->
     Headers = [{<<"Access-Control-Allow-Origin">>, <<"*">>},
                 {<<"Access-Control-Allow-Methods">>, <<"POST, GET, OPTIONS">>},
                 {<<"Access-Control-Allow-Headers">>, <<"Origin, X-Requested-With, Content-Type, Accept, X-Socket-Transport, Connection-id">>},
