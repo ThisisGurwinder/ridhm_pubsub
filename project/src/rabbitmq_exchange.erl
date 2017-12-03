@@ -29,7 +29,7 @@ handle_call({declare_exchange, {Exchange, Type}}, _From, State = #state{channel 
                                                     type = Type,
                                                     durable = false,
                                                     passive = true,
-                                                    internal = false
+                                                    interval = false
                                                 }),
     {reply, ok, State#state{exchange = Exchange}};
 
