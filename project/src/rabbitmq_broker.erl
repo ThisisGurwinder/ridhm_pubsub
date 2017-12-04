@@ -64,7 +64,7 @@ handle_cast(_Message, State) ->
 
 terminate(_Reason, #state{channel = Channel, connection = Connection}) ->
     amqp_channel:close(Channel),
-    amqp_channel:close(Connection),
+    amqp_connection:close(Connection),
     ok.
 
 code_change(_OldVsn, State, _Extra) ->
