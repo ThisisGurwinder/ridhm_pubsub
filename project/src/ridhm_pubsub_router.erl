@@ -97,6 +97,7 @@ broadcast_cluster(_, []) ->
 broker_publish(Msg, Channel) ->
     case ridhm_pubsub_broker_sup:get_broker() of
         undefined ->
+            io:format("Undefined Broker"),
             ok;
         {_BrokerType, Broker} ->
             io:format("Broker To Publish :: ~p , Message :: ~p and Channel :: ~p", [Broker, Msg, Channel]),

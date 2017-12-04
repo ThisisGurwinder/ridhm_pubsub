@@ -25,8 +25,11 @@ read_broker_config() ->
         {ok, rabbitmq} -> rabbitmq_broker
 end.
 
+read_rabbitmq_broker() ->
+    rabbitmq_broker.
+
 get_broker() ->
-    case read_broker_config() of
+    case read_rabbitmq_broker() of
         undefined ->
             undefined;
         BrokerModule ->
