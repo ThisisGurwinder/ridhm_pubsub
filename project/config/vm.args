@@ -1,0 +1,9 @@
+## Name of the node
+-sname ridhm_pubsub@localhost
+-setcookie ridhm_pubsub
+
+## Increase number of concurrent ports/sockets
+-env ERL_MAX_PORTS 64000
+
+## Raise the default erlang process limit
++P 256000
