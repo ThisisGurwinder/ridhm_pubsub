@@ -48,7 +48,7 @@ terminate(_Reason, #state{channel = Channel, user_id = UserId}) ->
 code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
 
-subscribe(SubscriberPid) -> gen_server:cast(SubscriberPid, subscribe).
+subscribe(SubscriberPid) -> gen_server:call(SubscriberPid, subscribe).
 
 update_user(SubscriberPid, UserId) -> gen_server:cast(SubscriberPid, {update_user, UserId}).
 
