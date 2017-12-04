@@ -32,6 +32,7 @@ handle_info(shutdown, State) ->
     {stop, normal, State}.
 
 handle_call(subscribe, _From, State = #state{channel = Channel, user_id = UserId}) ->
+    io:format("Subscribe :: Channel ~p and UserId ~p", [Channel, UserId]),
     Res = maybe_subscribe(Channel, UserId),
     {reply, Res, State};
 handle_call(stop, _From, State) ->
