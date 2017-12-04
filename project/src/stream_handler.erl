@@ -21,16 +21,20 @@ init(_Transport, Req, _Opts, Active) ->
                         true ->
                             init_long_lived()
             end,
+    io:format("Initializing conn stream ~p ~n", [Active]),
     {ok, Req, #state{active = Active, token = undefined, connection = ConnectionPid}}.
 
 stream(<<"ping">>, Req, State) ->
     {reply, <<"pong">>, Req, State};
 stream(_Data, Req, State = #state{connection = undefined}) ->
+    io:format("Connection Stream Connection Undefined ~p~n", [Req]),
     {ok, Req, State};
 stream(Data, Req, State = #state{connection = Connection, active = false}) ->
+    io:format("Connection Stream Connection ~p  ~p Active False~n", [Connection, Req]),
     gen_server:cast(Connection, {process_message, Data}),
     {ok, Req, State};
 stream(Data, Req, State = #state{connection = Connection}) ->
+    io:format("Connection Stream Connection ~p  ~p  ~n", [Connection, Req]),
     gen_server:cast(Connection, {process_message, Data}),
     {ok, Req, State}.
 
