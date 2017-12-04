@@ -37,6 +37,7 @@ handle_cast({publish, Message, channel, Channel}, State) ->
     broadcast({received_message, Message, channel, Channel}, Subs),
     broadcast_cluster({cluster_publish, Message, channel, Channel}, nodes()),
     broker_publish(Message, Channel),
+    io:format("Message: ~p and Channel ~p",[Message, Channel]),
     {noreply, State};
 handle_cast({cluster_publish, Message, channel, Channel}, State) ->
     Subs = try ets:lookup_element(router_subscribers, Channel, 2) of
@@ -44,9 +45,11 @@ handle_cast({cluster_publish, Message, channel, Channel}, State) ->
         catch _:_ -> []
         end,
     broadcast({received_message, Message, channel, Channel}, Subs),
+    io:format("Cluster _ Message: ~p and Channel ~p",[Message, Channel]),
     {noreply, State};
 handle_cast({subscribe, Channel, from, ReplyTo, user_id, UserId}, State) ->
     ets:insert(router_subscribers, {Channel, ReplyTo, UserId}),
+    io:format("Subscribed:: Channel ~p From ~p UserId ~p", [Channel, ReplyTo, UserId]),
     {noreply, State};
 handle_cast({unsubscribe, Channel, from, ReplyTo, user_id, UserId}, State) ->
     ets:delete_object(router_subscribers, {Channel, ReplyTo, UserId}),
