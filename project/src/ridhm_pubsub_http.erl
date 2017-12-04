@@ -50,7 +50,7 @@ start_http(Dispatch) ->
                 ]},
             {middlewares, [
                 cowboy_router,
-                % ridhm_pubsub_cors,
+                ridhm_pubsub_cors,
                 cowboy_handler
             ]}
         ]),
