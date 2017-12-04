@@ -198,7 +198,7 @@ update_users(UserId, Subs, Pubs) ->
         ridhm_pubsub_subscriber:update_user(Pub, UserId) end, Pubs).
 
 publish(PublisherPid, CompleteMessage) ->
-    case ridhm_pubsub_publisher:publisher(PublisherPid, CompleteMessage) of
+    case ridhm_pubsub_publisher:publish(PublisherPid, CompleteMessage) of
         ok -> ok;
         {error, Error} -> self() ! {just_send, Error}
     end.
