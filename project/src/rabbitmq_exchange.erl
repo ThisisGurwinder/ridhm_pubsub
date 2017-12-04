@@ -28,12 +28,13 @@ handle_info(shutdown, State) ->
     {stop, normal, State}.
     
 handle_call({declare_exchange, {Exchange, Type}}, _From, State = #state{channel = Channel}) ->
-    amqp_channel:call(Channel, #'exchange.declare'{exchange = Exchange,
-                                                    type = Type,
-                                                    durable = false,
-                                                    passive = true,
-                                                    internal = false
-                                                }),
+    ExchangeDeclare = #'exchange.declare'{exchange = Exchange,
+                                                type = Type,
+                                                durable = false,
+                                                passive = true,
+                                                internal = false
+                                            },
+    #'exchange.declare_ok'{} = amqp_channel:call(Channel, ExchangeDeclare),
     {reply, ok, State#state{exchange = Exchange}};
 
 handle_call({publish, Message}, _From, State = #state{channel = Channel, exchange = Exchange}) ->
