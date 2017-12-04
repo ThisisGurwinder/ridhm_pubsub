@@ -1,6 +1,6 @@
 -module(ridhm_pubsub_broker_sup).
 -behaviour(supervisor).
--export([start_link/0, get_broker/0]).
+-export([start_link/0, get_broker/0, read_broker_config/0]).
 -export([init/1]).
 
 start_link() ->
