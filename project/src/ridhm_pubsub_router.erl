@@ -99,6 +99,7 @@ broker_publish(Msg, Channel) ->
         undefined ->
             ok;
         {_BrokerType, Broker} ->
+            io:format("Broker To Publish :: ~p , Message :: ~p and Channel :: ~p", [Broker, Msg, Channel]),
             gen_server:cast(Broker, {publish, Msg, channel, Channel})
     end.
 

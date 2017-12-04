@@ -19,7 +19,7 @@ start_link() ->
 
 start_connection(From, Type, Token) ->
     ?MODULE ! {?MODULE, start_connection, From, Type, Token},
-receive Ret -> Ret end.
+    receive Ret -> Ret end.
 
 init(Parent) ->
     ets:new(ridhm_pubsub_conn_bypid, [set, public, named_table]),
