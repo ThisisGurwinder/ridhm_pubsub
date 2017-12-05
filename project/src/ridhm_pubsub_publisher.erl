@@ -23,7 +23,7 @@ init([Channel, UserId, From]) ->
     erlang:monitor(process, From),
     {ok, #state{user_id = UserId, channel = Channel, already_authorized = false}}.
 
-handle_info({'DOWN', _Ref, process, _Pid}, State) ->
+handle_info({'DOWN', _Ref, process, _Pid, _}, State) ->
     {stop, shutdown, State};
 handle_info(shutdown, State) ->
     {stop, shutdown, State}.
@@ -62,7 +62,7 @@ publish(PublisherPid, Message) ->
     gen_server:call(PublisherPid, {publish, Message}).
 
 update_user(PublisherPid, UserId) ->
-    gen_server:call(PublisherPid, {update_user, UserId}).
+    gen_server:cast(PublisherPid, {update_user, UserId}).
 
 can_publish(UserId, Channel) ->
     case application:get_env(ridhm_pubsub, publish_authorization) of

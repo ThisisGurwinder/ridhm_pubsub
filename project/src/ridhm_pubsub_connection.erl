@@ -67,7 +67,7 @@ handle_cast({process_message, Message}, State = #state{timer = Timer, transport_
             State
         end,
     {noreply, StateNew#state{timer = Timer2}};
-handle_cast({keep_alive, From}, State = #state{timer = Timer, buffer = Buffer}) ->
+handle_cast({keepalive, From}, State = #state{timer = Timer, buffer = Buffer}) ->
     Timer2 = reset_timer(Timer),
     case Buffer of
         [] -> ok;
@@ -217,7 +217,8 @@ reset_timer(Timer) ->
     end.
 
 send_transport(Transport, Msg, [], permanent) ->
-    Transport ! {text, Msg};
+    Transport ! {text, Msg},
+    [];
 send_transport(Transport, Msg, Buffer, temporary) ->
     flush_buffer(Transport, Buffer ++ [Msg]),
     [];

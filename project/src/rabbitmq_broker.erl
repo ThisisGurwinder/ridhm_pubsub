@@ -67,9 +67,9 @@ handle_cast({publish, Message, channel, Channel}, State = #state{channel = Rabbi
 handle_cast(_Message, State) ->
     {noreply, State}.
 
-terminate(_Reason, #state{channel = _Channel, connection = _Connection}) ->
-    amqp_channel:close(_Channel),
-    amqp_connection:close(_Connection),
+terminate(_Reason, #state{channel = Channel, connection = Connection}) ->
+    amqp_channel:close(Channel),
+    amqp_connection:close(Connection),
     ok.
 
 code_change(_OldVsn, State, _Extra) ->

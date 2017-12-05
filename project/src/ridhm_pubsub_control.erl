@@ -22,7 +22,7 @@ parse_arguments(OptSpecList) ->
             end;
         _ ->
             getopt:usage(OptSpecList, "ridhm_pubsub_control")
-        end,
+        end, 
         init:stop(0).
 
 maybe_start(Args, Extra) ->

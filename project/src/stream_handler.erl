@@ -47,13 +47,13 @@ info({send_token, Token}, Req, State) ->
     Req2 = cowboy_req:set_resp_header(<<"connection-id">>, Token, Req),
     Msg = "connection-id",
     {reply, Msg, Req2, State = #state{token = Token}};
-info({'DOWN', _Req, process, _Pid, _}, Req, State) ->
+info({'DOWN', _Req, process, _Pid, _Reason}, Req, State) ->
     CPid = create_connection(intermittent),
     {ok, Req, State#state{connection = CPid}};
 info(_Info, Req, State) ->
     {ok, Req, State}.
 
-terminate(_Req, #state{ connection = ConnectionPid, active = false, conn_ref = ConnRef}) ->
+terminate(_Req, #state{ connection = ConnectionPid, active = once, conn_ref = ConnRef}) ->
     case ConnRef of
         undefined -> ok;
         _ -> erlang:demonitor(ConnRef)
@@ -82,7 +82,7 @@ init_xhr_get(Req) ->
                 [{_, Conn}] ->
                     case is_process_alive(Conn) of
                         true ->
-                            gen_server:call(Conn, [keepalive, self()]),
+                            gen_server:cast(Conn, [keepalive, self()]),
                             Conn;
                         false ->
                             create_connection(intermittent)
