@@ -1,7 +1,7 @@
 -module(ridhm_pubsub_connection).
 -behaviour(gen_server).
 
--define(CONNTIMEOUT, 100000).
+-define(CONNTIMEOUT, 10000000).
 
 -export([start/2, start_link/2]).
 -export([stop/1]).
