@@ -35,6 +35,7 @@ start() ->
     application:start(cowboy),
     application:start(rabbit_common),
     application:start(amqp_client),
+    application:start(inets),
     application:start(ridhm_pubsub).
 
 join_cluster_nodes([]) -> ok;
