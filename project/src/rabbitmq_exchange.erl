@@ -42,7 +42,7 @@ handle_call({publish, Message}, _From, State = #state{channel = Channel, exchang
                         #'basic.publish'{
                             exchange = Exchange,
                             routing_key = <<"">>},
-                        #'amqp_msg'{payload = Message}),
+                        #amqp_msg{payload = Message}),
     {reply, ok, State};
 
 handle_call(stop, _From, State) ->

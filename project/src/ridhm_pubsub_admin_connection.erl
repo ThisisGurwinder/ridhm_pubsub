@@ -33,7 +33,7 @@ handle_call({publish, {channel, Channel}, {message, Message}}, _From, State) ->
     Payload = jsx:encode([{<<"type">>, <<"message">>},
                             {<<"message">>, JsonMessage},
                             {<<"channel">>, Channel},
-                            {<<"from-server">>, <<"true">>}
+                            {<<"from_server">>, <<"true">>}
                             ]),
     ridhm_pubsub_router:publish(Payload, Channel),
     {reply, ok, State};
