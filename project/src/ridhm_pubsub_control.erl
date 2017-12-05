@@ -44,7 +44,7 @@ maybe_stop(Args, Extra) ->
     end.
 
 maybe_join_cluster(Args, Extra) ->
-    case listS:member("join_cluster", Extra) of
+    case lists:member("join_cluster", Extra) of
         true -> case lists:keyfind(nodename, 1, Args) of
                     {nodename, Node} ->
                         case lists:keyfind(nodetojoin, 1, Args) of

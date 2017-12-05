@@ -27,18 +27,13 @@ init([Sup]) ->
     {ok, #state{channel = Channel, supervisor = Sup, connection = Connection}}.
 
 handle_info({start_rabbitmq_queue_sup, Channel}, State = #state{supervisor = Sup}) ->
-   Super = case supervisor:start_child(Sup, {rabbitmq_queue_sup,
-                                                    {rabbitmq_queue_sup, start_link, [Channel]},
-                                                    permanent,
-                                                    infinity,
-                                                    worker,
-                                                    [rabbitmq_queue_sup]}) of
-                                                {ok, QueueSup} ->
-                                                    QueueSup;
-                                                {error, {already_started, QueueSup}} ->
-                                                    QueueSup
-            end,
-    {noreply, State#state{queue_supervisor = Super}};
+    {ok, QueueSup} = supervisor:start_child(Sup, {rabbitmq_queue_sup,
+        {rabbitmq_queue_sup, start_link, [Channel]},
+        permanent,
+        infinity,
+        worker,
+        [rabbitmq_queue_sup]}), 
+    {noreply, State#state{queue_supervisor = QueueSup}};
 
 handle_info(shutdown, State) ->
     {stop, normal, State}.
