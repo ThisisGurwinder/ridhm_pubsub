@@ -33,21 +33,21 @@ handle_info(shutdown, State) ->
 
 handle_call(subscribe, _From, State = #state{channel = Channel, user_id = UserId}) ->
     io:format("Subscribe :: Channel ~p and UserId ~p", [Channel, UserId]),
-    Res = maybe_subscribe(Channel, UserId),
+    Res = maybe_subscribe(UserId, Channel),
     {reply, Res, State};
 handle_call(stop, _From, State) ->
     {stop, normal, ok, State}.
 
 handle_cast({update_user, UserId}, State) ->
-    {ok, State#state{user_id = UserId}};
+    {noreply, State#state{user_id = UserId}};
 handle_cast(_Message, State) ->
-    {ok, State}.
+    {noreply, State}.
 
 terminate(_Reason, #state{channel = Channel, user_id = UserId}) ->
     ok = gen_server:cast(ridhm_pubsub_router, {unsubscribe, Channel, from, self(), user_id, UserId}).
 
 code_change(_OldVsn, State, _Extra) ->
-    {ok, State}.
+    State.
 
 subscribe(SubscriberPid) -> gen_server:call(SubscriberPid, subscribe).
 
@@ -55,7 +55,7 @@ update_user(SubscriberPid, UserId) -> gen_server:cast(SubscriberPid, {update_use
 
 maybe_subscribe(UserId, Channel) ->
     case can_subscribe(UserId, Channel) of
-        true -> subscribe_in_router(UserId, Channel),
+        true -> subscribe_in_router(Channel, UserId),
                 ok;
         Error -> {error, Error}
 end.
@@ -66,5 +66,5 @@ can_subscribe(UserId, Channel) ->
             {ok, AuthConfig} -> ridhm_pubsub_authorization:check_authorization(UserId, Channel, AuthConfig)
 end.
 
-subscribe_in_router(UserId, Channel) ->
+subscribe_in_router(Channel, UserId) ->
     ok = gen_server:cast(ridhm_pubsub_router, {subscribe, Channel, from, self(), user_id, UserId}).

@@ -19,15 +19,15 @@ stop(Pid) ->
 
 init([]) ->
     ets:new(router_subscribers, [bag, private, named_table]),
-    {ok, ok}.
+    {ok, s}.
 
 handle_call({local_presence, Channel}, _From, State) ->
-    UserWithDupes = try ets:lookup_element(router_subscribers, Channel, 3) of
+    UsersWithDupes = try ets:lookup_element(router_subscribers, Channel, 3) of
                         Users -> Users
                     catch _:_ ->
                         []
                     end,
-    {reply, UserWithDupes, State}.
+    {reply, UsersWithDupes, State}.
 
 handle_cast({publish, Message, channel, Channel}, State) ->
     Subs = try ets:lookup_element(router_subscribers, Channel, 2) of
