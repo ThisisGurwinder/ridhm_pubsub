@@ -41,7 +41,10 @@ loop(State=#state{parent=Parent}, CurConns) ->
                         _ ->
                             ok
                     end,
-                    loop(State, CurConns+1)
+                    loop(State, CurConns+1);
+                _ ->
+                    From ! self(),
+                    loop(State, CurConns)
             end;
         {'EXIT', Parent, Reason} ->
             exit(Reason);
@@ -58,16 +61,16 @@ loop(State=#state{parent=Parent}, CurConns) ->
     {system, From, Msg} ->
         sys:handle_system_mesg(Msg, From, Parent, ?MODULE, [],
                                     {State, CurConns});
-    {'$get_call', {To, Tag}, which_children} ->
+    {'$gen_call', {To, Tag}, which_children} ->
         Children = ets:tab2list(ridhm_pubsub_conn_bypid),
         To ! {Tag, Children},
         loop(State, CurConns);
-    {'$get_call', {To, Tag}, count_children} ->
+    {'$gen_call', {To, Tag}, count_children} ->
         Counts = [{supervisors, 0}, {workers, CurConns}],
         Counts2 = [{specs, 1}, {active, CurConns} | Counts],
         To ! {Tag, Counts2},
         loop(State, CurConns);
-    {'$get_call', {To, Tag}, _} ->
+    {'$gen_call', {To, Tag}, _} ->
         To ! {Tag, {error, ?MODULE}},
         loop(State, CurConns);
     Msg ->
@@ -91,6 +94,6 @@ report_error(_, shutdown) ->
     ok;
 report_error(_, {shutdown, _}) ->
     ok;
-report_error(Req, Reason) ->
+report_error(Ref, Reason) ->
     error_logger:error_msg(
-        "Ridhm PubSub Connection Supervisor had connection process started at ~p with exit reason: ~999999p~n", [Req, Reason]).
+        "Ridhm PubSub Connection Supervisor had connection process started at ~p with exit reason: ~999999p~n", [Ref, Reason]).
