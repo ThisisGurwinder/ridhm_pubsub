@@ -7,7 +7,7 @@ start_link() ->
     supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
 init([]) ->
-    case read_rabbitmq_broker() of
+    case read_broker_config() of
         undefined -> {ok, { {one_for_one, 5, 10}, []}};
         BrokerModule -> {ok, { {one_for_one, 5, 10}, [
             {broker,
@@ -25,11 +25,8 @@ read_broker_config() ->
         {ok, rabbitmq} -> rabbitmq_broker
 end.
 
-read_rabbitmq_broker() ->
-    rabbitmq_broker.
-
 get_broker() ->
-    case read_rabbitmq_broker() of
+    case read_broker_config() of
         undefined ->
             undefined;
         BrokerModule ->

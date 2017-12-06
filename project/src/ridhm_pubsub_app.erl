@@ -1,8 +1,8 @@
 -module(ridhm_pubsub_app).
--behaviour(application).
 
 -include_lib("amqp_client/include/amqp_client.hrl").
 
+-behaviour(application).
 -export([start/0, stop/0, join_cluster/1, cluster_status/0, join_cluster_nodes/0]).
 -export([start/2, stop/1]).
 
